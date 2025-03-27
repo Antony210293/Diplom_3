@@ -1,6 +1,6 @@
-package Steps;
+package steps;
 
-import Model.Data;
+import model.Data;
 import io.qameta.allure.Step;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
@@ -14,28 +14,28 @@ public class UserSteps {
     public static RequestSpecification requestSpecification() {
         return given().log().all()
                 .contentType(ContentType.JSON)
-                .baseUri(Data.baseApiUri);
+                .baseUri(Data.BASE_API_URI);
     }
 
     @Step("Создание нового пользователя")
     public ValidatableResponse userCreate(UserCreateAccount userCreateAccount) {
         return requestSpecification()
                 .body(userCreateAccount)
-                .post(Data.authApiUri)
+                .post(Data.AUTH_API_URI)
                 .then();
     }
     @Step("Авторизация пользователя")
     public ValidatableResponse userLogin(UserLogin userLogin) {
         return requestSpecification()
                 .body(userLogin)
-                .post(Data.loginApiUri)
+                .post(Data.LOGIN_API_URI)
                 .then();
     }
     @Step("Удаление пользователя без авторизации")
     public ValidatableResponse userDelete(String accessToken) {
         return requestSpecification()
                 .header("Authorization", accessToken)
-                .delete(Data.userApiUri)
+                .delete(Data.USER_API_URI)
                 .then();
     }
     @Step("Удаление пользователя после авторизации")

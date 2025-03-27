@@ -1,4 +1,4 @@
-package PageObject;
+package pageobject;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
@@ -25,8 +25,8 @@ public class RegisterPage {
     public RegisterPage(WebDriver driver){
         this.driver = driver;
     }
-    // Регистрация пользователя
-    @Step
+
+    @Step("Регистрация пользователя")
     public void registration(String name, String email, String password) {
         new WebDriverWait(driver, 3)
                 .until(ExpectedConditions.visibilityOfElementLocated(registrButton));
@@ -35,8 +35,8 @@ public class RegisterPage {
         driver.findElement(passwordField).sendKeys(password);
         driver.findElement(registrButton).click();
     }
-    // Проверка отображения ошибки о неправильном пароле
-    @Step
+
+    @Step("Проверка отображения ошибки о неправильном пароле")
     public boolean wrongPasswordTextIsDisplayed() {
         new WebDriverWait(driver, 3)
                 .until(ExpectedConditions.visibilityOfElementLocated(wrongPasswordText));
@@ -46,8 +46,8 @@ public class RegisterPage {
             return false;
         }
     }
-    // Нажатие на кнопку Войти
-    @Step
+
+    @Step("Нажатие на кнопку Войти")
     public void loginButtonClick () {
         new WebDriverWait(driver, 3)
                 .until(ExpectedConditions.visibilityOfElementLocated(loginButton));

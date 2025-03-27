@@ -1,4 +1,4 @@
-package PageObject;
+package pageobject;
 
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
@@ -19,29 +19,29 @@ public class PersonalPage {
     public PersonalPage(WebDriver driver){
         this.driver = driver;
     }
-    // Нажатие на кнопку Конструктор
-    @Step
+
+    @Step("Нажатие на кнопку Конструктор")
     public void constructorButtonClick () {
         new WebDriverWait(driver, 10)
                 .until(ExpectedConditions.visibilityOfElementLocated(constructorButton));
         driver.findElement(constructorButton).click();
     }
-    // Нажатие на Логотип
-    @Step
+
+    @Step("Нажатие на Логотип")
     public void logoClick () {
         new WebDriverWait(driver, 10)
                 .until(ExpectedConditions.visibilityOfElementLocated(logo));
         driver.findElement(logo).click();
     }
-    // Нажатие на кнопку Выход после ожидания ее появления
-    @Step
+
+    @Step("Нажатие на кнопку Выход после ожидания ее появления")
     public void exitButtonClick () {
         new WebDriverWait(driver, 10)
                 .until(ExpectedConditions.visibilityOfElementLocated(exitButton));
         driver.findElement(exitButton).click();
     }
-    // Проверка отображения кнопки Выход
-    @Step
+
+    @Step("Проверка отображения кнопки Выход")
     public boolean exitButtonIsDisplayed() {
         new WebDriverWait(driver, 10)
                 .until(ExpectedConditions.visibilityOfElementLocated(exitButton));

@@ -1,4 +1,4 @@
-package PageObject;
+package pageobject;
 
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
@@ -25,43 +25,43 @@ public class MainPage {
     public MainPage(WebDriver driver){
         this.driver = driver;
     }
-    // Нажатие на кнопку Войти в аккаунт
-    @Step
+
+    @Step("Нажатие кнопки войти для авторизации пользователя")
     public void loginButtonClick () {
         new WebDriverWait(driver, 10)
                 .until(ExpectedConditions.visibilityOfElementLocated(loginButton));
         driver.findElement(loginButton).click();
     }
-    // Нажатие на кнопку Личный кабинет
-    @Step
+
+    @Step("Нажатие на кнопку Личный кабинет")
     public void profileButtonClick () {
         new WebDriverWait(driver, 10)
                 .until(ExpectedConditions.visibilityOfElementLocated(profileButton));
         driver.findElement(profileButton).click();
     }
-    // Нажатие на раздел Булки
-    @Step
+
+    @Step("Нажатие на раздел Булки")
     public void sectionBunClick () {
         new WebDriverWait(driver, 10)
                 .until(ExpectedConditions.visibilityOfElementLocated(sectionBun));
         driver.findElement(sectionBun).click();
     }
-    // Нажатие на раздел Соусы
-    @Step
+
+    @Step("Нажатие на раздел Соусы")
     public void sectionSauceClick () {
         new WebDriverWait(driver, 10)
                 .until(ExpectedConditions.visibilityOfElementLocated(sectionSauce));
         driver.findElement(sectionSauce).click();
     }
-    // Нажатие на раздел Начинки
-    @Step
+
+    @Step("Нажатие на раздел Начинки")
     public void sectionToppingClick () {
         new WebDriverWait(driver, 10)
                 .until(ExpectedConditions.visibilityOfElementLocated(sectionTopping));
         driver.findElement(sectionTopping).click();
     }
-    // Проверка отображения кнопки перехода в Личный кабинет
-    @Step
+
+    @Step("Проверка отображения кнопки перехода в Личный кабинет")
     public boolean profileButtonIsDisplayed() {
         new WebDriverWait(driver, 10)
                 .until(ExpectedConditions.visibilityOfElementLocated(profileButton));
@@ -71,8 +71,8 @@ public class MainPage {
             return false;
         }
     }
-    // Проверка отображения кнопки Оформить заказ
-    @Step
+
+    @Step("Проверка отображения кнопки Оформить заказ")
     public boolean createOrderButtonIsDisplayed() {
         new WebDriverWait(driver, 10)
                 .until(ExpectedConditions.visibilityOfElementLocated(createOrderButton));
@@ -82,8 +82,8 @@ public class MainPage {
             return false;
         }
     }
-    // Возвращает выбранный элемент в конструкторе
-    @Step
+
+    @Step("Возвращает выбранный элемент в конструкторе")
     public String returnSelectedSection(String sectionName) {
         WebDriverWait wait = new WebDriverWait(driver, 5);
         wait.until(ExpectedConditions.textToBe(By.xpath(".//div[contains(@class, 'current')]/span"), sectionName));

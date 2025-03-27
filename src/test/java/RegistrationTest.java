@@ -1,7 +1,7 @@
-import Model.Data;
-import PageObject.RegisterPage;
-import Steps.UserLogin;
-import Steps.UserSteps;
+import model.Data;
+import pageobject.RegisterPage;
+import steps.UserLogin;
+import steps.UserSteps;
 import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
 import org.junit.After;
@@ -10,13 +10,10 @@ import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import java.time.Duration;
+
 import java.util.concurrent.TimeUnit;
 
-import static Model.Data.loginURL;
-import static Model.Data.registerURL;
+import static model.Data.REGISTER_URL;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertTrue;
 
@@ -30,7 +27,7 @@ public class RegistrationTest {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--no-sandbox", "--headless", "--disable-dev-shm-usage");
         driver = new ChromeDriver();
-        driver.get(registerURL);
+        driver.get(REGISTER_URL);
     }
 
     @After
@@ -42,7 +39,7 @@ public class RegistrationTest {
     public void deleteUser() {
         if (!skipUserDelete) {
             UserSteps userSteps = new UserSteps();
-            UserLogin userLogin = new UserLogin(Data.email, Data.valid_password);
+            UserLogin userLogin = new UserLogin(Data.EMAIL, Data.VALID_PASSWORD);
             userSteps.userDeleteAfterLogin(userLogin);
         }
     }
@@ -50,12 +47,12 @@ public class RegistrationTest {
     @Test
     @DisplayName("Успешная регистрация")
     @Description("Проверка возможности регистрации пользователя с валидными данными")
-    public void SuccessfulRegistrationWithValidData() {
+    public void successfulRegistrationWithValidData() {
         RegisterPage registerPage = new RegisterPage(driver);
-        registerPage.registration(Data.name, Data.email, Data.valid_password);
+        registerPage.registration(Data.NAME, Data.EMAIL, Data.VALID_PASSWORD);
         registerPage.clickRegistrationButton();
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-        UserLogin userLoginRequest = new UserLogin(Data.email, Data.valid_password);
+        UserLogin userLoginRequest = new UserLogin(Data.EMAIL, Data.VALID_PASSWORD);
         UserSteps userSteps = new UserSteps();
         userSteps.userLogin(userLoginRequest)
                 .assertThat().body("success", equalTo(true))
@@ -66,11 +63,11 @@ public class RegistrationTest {
     @Test
     @DisplayName("Ошибка регистрации")
     @Description("Проверка ошибки при попытке регистрации пользователя с паролем менее 6 символов")
-    public void FailedRegistrationWithPasswordLessThen6Symbols() {
+    public void failedRegistrationWithPasswordLessThen6Symbols() {
         skipUserDelete = true;
-        driver.get(Data.registerURL);
+        driver.get(Data.REGISTER_URL);
         RegisterPage registerPage = new RegisterPage(driver);
-        registerPage.registration(Data.name, Data.email, Data.wrong_password);
+        registerPage.registration(Data.NAME, Data.EMAIL, Data.WRONG_PASSWORD);
         assertTrue(registerPage.wrongPasswordTextIsDisplayed());
     }
 }

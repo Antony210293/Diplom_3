@@ -1,4 +1,4 @@
-package PageObject;
+package pageobject;
 
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
@@ -19,8 +19,8 @@ public class LoginPage {
     public LoginPage(WebDriver driver){
         this.driver = driver;
     }
-    // Вход в аккаунт
-    @Step
+
+    @Step("Вход в аккаунт с валидными данными")
     public void login(String email, String password) {
         new WebDriverWait(driver, 10)
                 .until(ExpectedConditions.visibilityOfElementLocated(loginButton));
@@ -28,8 +28,8 @@ public class LoginPage {
         driver.findElement(passwordField).sendKeys(password);
         driver.findElement(loginButton).click();
     }
-    // Проверка отображения кнопки Войти
-    @Step
+
+    @Step("Проверка видимости кнопки войти")
     public boolean loginButtonIsDisplayed() {
         new WebDriverWait(driver, 10)
                 .until(ExpectedConditions.visibilityOfElementLocated(loginButton));

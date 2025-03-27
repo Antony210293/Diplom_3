@@ -1,10 +1,10 @@
-import Model.Data;
-import PageObject.LoginPage;
-import PageObject.MainPage;
-import PageObject.PersonalPage;
-import Steps.UserCreateAccount;
-import Steps.UserLogin;
-import Steps.UserSteps;
+import model.Data;
+import pageobject.LoginPage;
+import pageobject.MainPage;
+import pageobject.PersonalPage;
+import steps.UserCreateAccount;
+import steps.UserLogin;
+import steps.UserSteps;
 import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
 import org.junit.After;
@@ -14,7 +14,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
-import static Model.Data.registerURL;
+import static model.Data.REGISTER_URL;
 import static org.junit.Assert.assertTrue;
 
 public class LogOutTest {
@@ -24,7 +24,7 @@ public class LogOutTest {
     @Before
     public void createUser() {
         UserSteps userSteps = new UserSteps();
-        UserCreateAccount userCreateAccount = new UserCreateAccount(Data.email, Data.valid_password, Data.name);
+        UserCreateAccount userCreateAccount = new UserCreateAccount(Data.EMAIL, Data.VALID_PASSWORD, Data.NAME);
         userSteps.userCreate(userCreateAccount);
     }
 
@@ -33,7 +33,7 @@ public class LogOutTest {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--no-sandbox", "--headless", "--disable-dev-shm-usage");
         driver = new ChromeDriver();
-        driver.get(registerURL);
+        driver.get(REGISTER_URL);
     }
 
     @After
@@ -44,17 +44,17 @@ public class LogOutTest {
     @After
     public void deleteUser() {
         UserSteps userSteps = new UserSteps();
-        UserLogin userLogin= new UserLogin(Data.email, Data.valid_password);
+        UserLogin userLogin= new UserLogin(Data.EMAIL, Data.VALID_PASSWORD);
         userSteps.userDeleteAfterLogin(userLogin);
     }
 
     @Test
     @DisplayName("Выход из аккаунта")
     @Description("Проверка возможности выйти из аккаунта после нажатия на кнопку Выход в профиле пользователя")
-    public void LogoutAfterExitButtonClick() {
-        driver.get(Data.loginURL);
+    public void logoutAfterExitButtonClick() {
+        driver.get(Data.LOGIN_URL);
         LoginPage loginPage = new LoginPage(driver);
-        loginPage.login(Data.email, Data.valid_password);
+        loginPage.login(Data.EMAIL, Data.VALID_PASSWORD);
         MainPage mainPage = new MainPage(driver);
         mainPage.profileButtonClick();
         PersonalPage personalPage = new PersonalPage(driver);
