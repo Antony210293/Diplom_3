@@ -1,0 +1,93 @@
+import model.Data;
+import pageobject.LoginPage;
+import pageobject.MainPage;
+import pageobject.PersonalPage;
+import steps.UserCreateAccount;
+import steps.UserLogin;
+import steps.UserSteps;
+import io.qameta.allure.Description;
+import io.qameta.allure.junit4.DisplayName;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+
+import static model.Data.REGISTER_URL;
+import static org.junit.Assert.assertTrue;
+
+public class PersonalAccountTest {
+
+    private WebDriver driver;
+
+    @Before
+    public void createUser() {
+        UserSteps userSteps = new UserSteps();
+        UserCreateAccount userCreateAccount = new UserCreateAccount(Data.EMAIL, Data.VALID_PASSWORD, Data.NAME);
+        userSteps.userCreate(userCreateAccount);
+    }
+
+    @Before
+    public void setUp() {
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--no-sandbox", "--headless", "--disable-dev-shm-usage");
+        driver = new ChromeDriver();
+        driver.get(REGISTER_URL);
+    }
+
+    @After
+    public void tearDown() {
+        driver.quit();
+    }
+
+    @After
+    public void deleteUser() {
+        UserSteps userSteps = new UserSteps();
+        UserLogin userLogin= new UserLogin(Data.EMAIL, Data.VALID_PASSWORD);
+        userSteps.userDeleteAfterLogin(userLogin);
+    }
+
+    @Test
+    @DisplayName("Переход в личный кабинет")
+    @Description("Проверка возможности входа в личный кабинет после нажатия на кнопку Личный кабинет на главной странице")
+    public void moveToProfileFromMain() {
+        driver.get(Data.LOGIN_URL);
+        LoginPage loginPage = new LoginPage(driver);
+        loginPage.login(Data.EMAIL, Data.VALID_PASSWORD);
+        MainPage mainPage = new MainPage(driver);
+        mainPage.profileButtonClick();
+        PersonalPage personalPage = new PersonalPage(driver);
+        assertTrue(personalPage.exitButtonIsDisplayed());
+    }
+
+
+    @Test
+    @DisplayName("Переход в конструктор через кнопку Конструктор")
+    @Description("Проверка возможности перехода к конструктору после нажатия на кнопку Конструктор в профиле пользователя")
+    public void switchingToConstructorAfterConstructorButtonClick() {
+        driver.get(Data.LOGIN_URL);
+        LoginPage loginPage = new LoginPage(driver);
+        loginPage.login(Data.EMAIL, Data.VALID_PASSWORD);
+        MainPage mainPage = new MainPage(driver);
+        mainPage.profileButtonClick();
+        PersonalPage personalPage = new PersonalPage(driver);
+        personalPage.constructorButtonClick();
+        assertTrue(mainPage.profileButtonIsDisplayed());
+    }
+
+    @Test
+    @DisplayName("Переход в конструктор через Логотип")
+    @Description("Проверка возможности перехода к конструктору после нажатия на Логотип в профиле пользователя")
+    public void switchingToConstructorAfterLogoClick() {
+        driver.get(Data.LOGIN_URL);
+        LoginPage loginPage = new LoginPage(driver);
+        loginPage.login(Data.EMAIL, Data.VALID_PASSWORD);
+        MainPage mainPage = new MainPage(driver);
+        mainPage.profileButtonClick();
+        PersonalPage personalPage = new PersonalPage(driver);
+        personalPage.logoClick();
+        assertTrue(mainPage.profileButtonIsDisplayed());
+    }
+
+}
